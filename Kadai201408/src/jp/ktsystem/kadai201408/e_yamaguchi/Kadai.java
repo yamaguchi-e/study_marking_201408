@@ -1,4 +1,4 @@
-package jp.ktsystem.kadai201408.e_yamaguchi;
+﻿package jp.ktsystem.kadai201408.e_yamaguchi;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -101,14 +101,14 @@ public class Kadai {
 			// 入力ファイルを１行ずつ読み込む
 			while (null != (oneRecord = bufferedReader.readLine())) {
 
-				if (calcFlag) {
+				if (!calcFlag) {
+					// BOM除去
+					if (KadaiConstants.BOM_PATTERN == oneRecord.charAt(0)) {
+						oneRecord = oneRecord.substring(1);
+					}
+				} else {
 					// 2行目以降は処理をとばす
 					break;
-				}
-
-				// BOM除去
-				if (KadaiConstants.BOM_PATTERN == oneRecord.charAt(0)) {
-					oneRecord = oneRecord.substring(1);
 				}
 
 				// レコードをカンマで区切る
