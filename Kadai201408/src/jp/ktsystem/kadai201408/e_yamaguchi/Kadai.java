@@ -11,7 +11,6 @@ import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.regex.Matcher;
 
 /**
  * <h3>課題クラス</h3>
@@ -32,7 +31,7 @@ public class Kadai {
 	public static long calcScoreSum(String anInputPath) throws KadaiException {
 
 		// 入力ファイルnull・空文字チェック
-		if (checkFile(anInputPath)) {
+		if (KadaiUtil.checkFile(anInputPath)) {
 			throw new KadaiException(KadaiConstants.FILE_INPUT_OUTPUT_ERROR);
 		}
 
@@ -62,7 +61,7 @@ public class Kadai {
 	public static void printMaxScore(String anInputPath, String anOutputPath) throws KadaiException {
 
 		// 入出力ファイルnull・空文字チェック
-		if (checkFile(anInputPath) || checkFile(anOutputPath)) {
+		if (KadaiUtil.checkFile(anInputPath) || KadaiUtil.checkFile(anOutputPath)) {
 			throw new KadaiException(KadaiConstants.FILE_INPUT_OUTPUT_ERROR);
 		}
 
@@ -103,47 +102,16 @@ public class Kadai {
 
 				if (!calcFlag) {
 					// BOM除去
-					if (KadaiConstants.BOM_PATTERN == oneRecord.charAt(0)) {
-						oneRecord = oneRecord.substring(1);
-					}
+					oneRecord = KadaiUtil.skipBom(oneRecord);
 				} else {
 					// 2行目以降は処理をとばす
 					break;
 				}
 
-				// レコードをカンマで区切る
-				String[] dataScoreInfo = oneRecord.split(KadaiConstants.DELIMITER, -1);
+				workTimeMap = calcRecordScore(oneRecord, workTimeMap);
 
-				for (int i = 0 ; i < dataScoreInfo.length ; i++) {
-					Matcher match = KadaiConstants.HALF_ALPHA_PATTERN.matcher(dataScoreInfo[i]);
-
-					// 半角英字以外がデータに含まれている場合エラー
-					if (!match.matches()) {
-						throw new KadaiException(KadaiConstants.ILLEGAL_CHAR_ERROR);
-					}
-
-					// 小文字を大文字に変換
-					String changeScoreInfo = dataScoreInfo[i].toUpperCase();
-
-					// データの点数の積
-					long scoreMultiply = 0;
-
-					for (char textData : changeScoreInfo.toCharArray()) {
-
-						// 文字の点数 * データの出現位置
-						long score = (textData -'A' +1) * (i+1);
-						scoreMultiply += score;
-					}
-
-					ScoreInfoBean bean = new ScoreInfoBean();
-					bean.setTextData(dataScoreInfo[i]);
-					bean.setScoreMultiply(scoreMultiply);
-
-					workTimeMap.put(i+1, bean);
-
-					// 1行目処理後にflagをtrueにする
-					calcFlag = true;
-				}
+				// 1行目処理後にflagをtrueにする
+				calcFlag = true;
 			}
 		} catch (FileNotFoundException fne) {
 			throw new KadaiException(KadaiConstants.FILE_INPUT_OUTPUT_ERROR);
@@ -157,6 +125,47 @@ public class Kadai {
 					throw new KadaiException(KadaiConstants.OTHER_ERROR);
 				}
 			}
+		}
+
+		return workTimeMap;
+	}
+
+	/**
+	 * 処理対象文字列の点数の積を計算
+	 * <br>
+	 * @param aCalcRecord 処理対象行
+	 * @param workTimeMap ファイル出力内容
+	 * @return Map<Integer, ScoreInfoBean>
+	 * @throws KadaiException
+	 */
+	private static Map<Integer, ScoreInfoBean> calcRecordScore(String aCalcRecord,
+			Map<Integer, ScoreInfoBean> workTimeMap) throws KadaiException {
+
+		// レコードをカンマで区切る
+		String[] dataScoreInfo = aCalcRecord.split(KadaiConstants.DELIMITER, -1);
+
+		for (int i = 0 ; i < dataScoreInfo.length ; i++) {
+			// 半角英字以外がデータに含まれている場合エラー
+			KadaiUtil.checkIllegalChar(dataScoreInfo[i], KadaiConstants.HALF_ALPHA_PATTERN);
+
+			// 小文字を大文字に変換
+			String changeScoreInfo = dataScoreInfo[i].toUpperCase();
+
+			// データの点数の積
+			long scoreMultiply = 0;
+
+			for (char textData : changeScoreInfo.toCharArray()) {
+
+				// 文字の点数 * データの出現位置
+				long score = (textData -'A' +1) * (i+1);
+				scoreMultiply += score;
+			}
+
+			ScoreInfoBean bean = new ScoreInfoBean();
+			bean.setTextData(dataScoreInfo[i]);
+			bean.setScoreMultiply(scoreMultiply);
+
+			workTimeMap.put(i+1, bean);
 		}
 
 		return workTimeMap;
@@ -221,16 +230,5 @@ public class Kadai {
 				}
 			}
 		}
-	}
-
-	/**
-	 * ファイル名チェック
-	 * <br>
-	 * @param anFilePath ファイル名
-	 * @return boolean
-	 * @throws KadaiException
-	 */
-	private static boolean checkFile(String aFilePath) {
-		return null == aFilePath || aFilePath.isEmpty();
 	}
 }
