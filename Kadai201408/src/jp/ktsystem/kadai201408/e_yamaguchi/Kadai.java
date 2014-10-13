@@ -36,12 +36,12 @@ public class Kadai {
 		}
 
 		// ファイルを読み込み、データの点数の積を取得
-		Map<Integer, ScoreInfoBean> workTimeMap = readScoreFile(anInputPath);
+		Map<Integer, ScoreInfoBean> scoreInfoMap = readScoreFile(anInputPath);
 
 		// 点数の積の合計
 		long scoreSum = 0;
 
-		for (Entry<Integer, ScoreInfoBean> key : workTimeMap.entrySet()) {
+		for (Entry<Integer, ScoreInfoBean> key : scoreInfoMap.entrySet()) {
 			// 点数の積を加算
 			scoreSum += key.getValue().getScoreMultiply();
 		}
@@ -86,7 +86,7 @@ public class Kadai {
 
 		BufferedReader bufferedReader = null;
 
-		Map<Integer, ScoreInfoBean> workTimeMap = new HashMap<Integer, ScoreInfoBean>();
+		Map<Integer, ScoreInfoBean> scoreInfoMap = new HashMap<Integer, ScoreInfoBean>();
 
 		try {
 			bufferedReader = new BufferedReader(new InputStreamReader(
@@ -108,7 +108,7 @@ public class Kadai {
 					break;
 				}
 
-				workTimeMap = calcRecordScore(oneRecord, workTimeMap);
+				scoreInfoMap = calcRecordScore(oneRecord, scoreInfoMap);
 
 				// 1行目処理後にflagをtrueにする
 				calcFlag = true;
@@ -127,19 +127,19 @@ public class Kadai {
 			}
 		}
 
-		return workTimeMap;
+		return scoreInfoMap;
 	}
 
 	/**
 	 * 処理対象文字列の点数の積を計算
 	 * <br>
 	 * @param aCalcRecord 処理対象行
-	 * @param workTimeMap ファイル出力内容
+	 * @param scoreInfoMap ファイル出力内容
 	 * @return Map<Integer, ScoreInfoBean>
 	 * @throws KadaiException
 	 */
 	private static Map<Integer, ScoreInfoBean> calcRecordScore(String aCalcRecord,
-			Map<Integer, ScoreInfoBean> workTimeMap) throws KadaiException {
+			Map<Integer, ScoreInfoBean> scoreInfoMap) throws KadaiException {
 
 		// レコードをカンマで区切る
 		String[] dataScoreInfo = aCalcRecord.split(KadaiConstants.DELIMITER, -1);
@@ -165,23 +165,23 @@ public class Kadai {
 			bean.setTextData(dataScoreInfo[i]);
 			bean.setScoreMultiply(scoreMultiply);
 
-			workTimeMap.put(i+1, bean);
+			scoreInfoMap.put(i+1, bean);
 		}
 
-		return workTimeMap;
+		return scoreInfoMap;
 	}
 
 	/**
 	 * 最大値取得
 	 * <br>
-	 * @param workTimeMap ファイル出力内容
+	 * @param scoreInfoMap ファイル出力内容
 	 * @return 最大値
 	 */
-	private static long compareScore(Map<Integer, ScoreInfoBean> workTimeMap) {
+	private static long compareScore(Map<Integer, ScoreInfoBean> scoreInfoMap) {
 
 		long maxScore = 0;
 
-		for (Entry<Integer, ScoreInfoBean> workTime : workTimeMap.entrySet()) {
+		for (Entry<Integer, ScoreInfoBean> workTime : scoreInfoMap.entrySet()) {
 			// 前の値と比較
 			long biggerScore = Math.max(maxScore, workTime.getValue().getScoreMultiply());
 
@@ -195,11 +195,11 @@ public class Kadai {
 	 * ファイル書き込み
 	 * <br>
 	 * @param anOutputPath 出力ファイルパス
-	 * @param workTimeMap ファイル出力内容
+	 * @param scoreInfoMap ファイル出力内容
 	 * @param aMaxScore 最大値
 	 * @throws KadaiException
 	 */
-	private static void writeScoreFile(String anOutputPath, Map<Integer, ScoreInfoBean> workTimeMap,
+	private static void writeScoreFile(String anOutputPath, Map<Integer, ScoreInfoBean> scoreInfoMap,
 			long aMaxScore) throws KadaiException {
 
 		BufferedWriter bufferedWriter = null;
@@ -208,7 +208,7 @@ public class Kadai {
 			bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anOutputPath),
 					KadaiConstants.CHARACTER_CODE));
 
-			for (Entry<Integer, ScoreInfoBean> workTime : workTimeMap.entrySet()) {
+			for (Entry<Integer, ScoreInfoBean> workTime : scoreInfoMap.entrySet()) {
 				// 値が最大値の場合、ファイルに出力
 				if (aMaxScore == workTime.getValue().getScoreMultiply()) {
 					bufferedWriter.write(String.format(KadaiConstants.OUTPUT_FORMAT,
