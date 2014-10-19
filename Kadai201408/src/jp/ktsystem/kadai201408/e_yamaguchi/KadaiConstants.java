@@ -1,4 +1,4 @@
-package jp.ktsystem.kadai201408.e_yamaguchi;
+﻿package jp.ktsystem.kadai201408.e_yamaguchi;
 
 import java.util.regex.Pattern;
 
@@ -11,13 +11,13 @@ import java.util.regex.Pattern;
 public class KadaiConstants {
 
 	/** FAIL_INPUT_OUTPUT_ERROR ファイルの入出力エラー */
-	public static final long FILE_INPUT_OUTPUT_ERROR = 1;
+	public static final int FILE_INPUT_OUTPUT_ERROR = 1;
 
 	/** ILLEGAL_CHAR_ERROR データ内部に半角英字以外の文字が存在した場合のエラー */
-	public static final long ILLEGAL_CHAR_ERROR = 2;
+	public static final int ILLEGAL_CHAR_ERROR = 2;
 
 	/** OTHER_ERROR その他のエラー */
-	public static final long OTHER_ERROR = 3;
+	public static final int OTHER_ERROR = 3;
 
 	/** CHARACTER_CODE  文字コード */
 	public static final String CHARACTER_CODE = "UTF-8";
@@ -34,6 +34,6 @@ public class KadaiConstants {
 	/**  OUTPUT_FORMAT  出力フォーマット  */
 	public static final String OUTPUT_FORMAT = "[%s]:[%s]:[%s]";
 
-	/**  FILE_SIZEs  ファイルサイズ  */
+	/**  FILE_SIZE  ファイルサイズ  */
 	public static final int FILE_SIZE = 1024 * 1024;
 }
