@@ -1,4 +1,4 @@
-package jp.ktsystem.kadai201408.e_yamaguchi;
+﻿package jp.ktsystem.kadai201408.e_yamaguchi;
 
 import junit.framework.TestCase;
 
@@ -33,7 +33,7 @@ public class TestKadai2 extends TestCase {
 	 * @param anOutputPath  出力ファイル
 	 * @param errorCode     エラーコード
 	 */
-	private void executeInvalid(String anInputPath, String anOutputPath, long errorCode) {
+	private void executeInvalid(String anInputPath, String anOutputPath, int errorCode) {
 		try {
 			Kadai.printMaxScore(anInputPath, anOutputPath);
 			fail("なぜ成功する？");

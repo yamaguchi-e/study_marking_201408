@@ -1,4 +1,4 @@
-package jp.ktsystem.kadai201408.e_yamaguchi;
+﻿package jp.ktsystem.kadai201408.e_yamaguchi;
 
 /**
  * <h3>エラーを返すクラス</h3>
@@ -9,14 +9,14 @@ package jp.ktsystem.kadai201408.e_yamaguchi;
 public class KadaiException extends Exception{
 
 	private static final long serialVersionUID = 1L;
-	private long errorCode;
+	private int errorCode;
 
 	/**
 	 * エラーコードを取得
 	 *
 	 * @return エラーコード
 	 */
-	public long getErrorCode() {
+	public int getErrorCode() {
 		return errorCode;
 	}
 
@@ -25,7 +25,7 @@ public class KadaiException extends Exception{
 	 *
 	 * @param error エラーコード
 	 */
-	public KadaiException(long error) {
+	public KadaiException(int error) {
 		errorCode = error;
 	}
 }
