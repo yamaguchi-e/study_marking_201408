@@ -116,13 +116,13 @@ public class Kadai {
 		} catch (FileNotFoundException fne) {
 			throw new KadaiException(KadaiConstants.FILE_INPUT_OUTPUT_ERROR);
 		} catch (IOException e) {
-			throw new KadaiException(KadaiConstants.OTHER_ERROR);
+			throw new KadaiException(KadaiConstants.FILE_INPUT_OUTPUT_ERROR);
 		} finally {
 			if (null != bufferedReader) {
 				try {
 					bufferedReader.close();
 				} catch (IOException e) {
-					throw new KadaiException(KadaiConstants.OTHER_ERROR);
+					throw new KadaiException(KadaiConstants.FILE_INPUT_OUTPUT_ERROR);
 				}
 			}
 		}
