@@ -146,7 +146,7 @@ public class Kadai {
 
 		for (int i = 0 ; i < dataScoreInfo.length ; i++) {
 			// 半角英字以外がデータに含まれている場合エラー
-			KadaiUtil.checkIllegalChar(dataScoreInfo[i], KadaiConstants.HALF_ALPHA_PATTERN);
+			KadaiUtil.checkIllegalChar(dataScoreInfo[i], KadaiConstants.DATA_PATTERN);
 
 			// 小文字を大文字に変換
 			String changeScoreInfo = dataScoreInfo[i].toUpperCase();
