@@ -28,8 +28,8 @@ public class KadaiConstants {
 	/** BOM_PATTERN  BOM */
 	public static final char BOM_PATTERN = 0xFEFF;
 
-	/** HALF_ALPHA_PATTERN 半角英字 */
-	public static final Pattern HALF_ALPHA_PATTERN = Pattern.compile("^[a-zA-Z]*$");
+	/** DATA_PATTERN 半角英字 */
+	public static final Pattern DATA_PATTERN = Pattern.compile("^[a-zA-Z]*$");
 
 	/**  OUTPUT_FORMAT  出力フォーマット  */
 	public static final String OUTPUT_FORMAT = "[%s]:[%s]:[%s]";
