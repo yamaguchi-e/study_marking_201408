@@ -101,8 +101,6 @@ public class Kadai {
 				// 処理対象文字列の点数の積を計算
 				scoreInfoMap = calcRecordScore(line, scoreInfoMap);
 			}
-		} catch (FileNotFoundException fne) {
-			throw new KadaiException(KadaiConstants.FILE_INPUT_OUTPUT_ERROR);
 		} catch (IOException e) {
 			throw new KadaiException(KadaiConstants.FILE_INPUT_OUTPUT_ERROR);
 		} finally {
