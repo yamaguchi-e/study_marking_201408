@@ -3,7 +3,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -203,8 +202,6 @@ public class Kadai {
 					bufferedWriter.flush();
 				}
 			}
-		} catch (FileNotFoundException fne) {
-			throw new KadaiException(KadaiConstants.FILE_INPUT_OUTPUT_ERROR);
 		} catch (IOException e) {
 			throw new KadaiException(KadaiConstants.FILE_INPUT_OUTPUT_ERROR);
 		} finally {
