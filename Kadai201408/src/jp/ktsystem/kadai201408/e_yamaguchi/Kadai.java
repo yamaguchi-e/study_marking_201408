@@ -78,6 +78,7 @@ public class Kadai {
 	/**
 	 * ファイル読み込み
 	 * <br>
+	 * 読み込みファイルに2行以上存在する場合、2行目以降は無視することが前提である。
 	 * @param anInputPath 入力ファイルパス
 	 * @return Map<Integer, ScoreInfoBean>
 	 * @throws KadaiException
@@ -92,26 +93,13 @@ public class Kadai {
 			bufferedReader = new BufferedReader(new InputStreamReader(
 					new FileInputStream(anInputPath), KadaiConstants.CHARACTER_CODE), KadaiConstants.FILE_SIZE);
 
-			String oneRecord = null;
+			String line = bufferedReader.readLine();
+			if (line != null) {
+				// BOM除去
+				line = KadaiUtil.skipBom(line);
 
-			// 1行目のみ処理するフラグ
-			boolean calcFlag = false;
-
-			// 入力ファイルを１行ずつ読み込む
-			while (null != (oneRecord = bufferedReader.readLine())) {
-
-				if (!calcFlag) {
-					// BOM除去
-					oneRecord = KadaiUtil.skipBom(oneRecord);
-				} else {
-					// 2行目以降は処理をとばす
-					break;
-				}
-
-				scoreInfoMap = calcRecordScore(oneRecord, scoreInfoMap);
-
-				// 1行目処理後にflagをtrueにする
-				calcFlag = true;
+				// 処理対象文字列の点数の積を計算
+				scoreInfoMap = calcRecordScore(line, scoreInfoMap);
 			}
 		} catch (FileNotFoundException fne) {
 			throw new KadaiException(KadaiConstants.FILE_INPUT_OUTPUT_ERROR);
