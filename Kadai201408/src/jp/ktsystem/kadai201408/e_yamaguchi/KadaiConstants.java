@@ -1,4 +1,4 @@
-﻿package jp.ktsystem.kadai201408.e_yamaguchi;
+package jp.ktsystem.kadai201408.e_yamaguchi;
 
 import java.util.regex.Pattern;
 
@@ -36,4 +36,7 @@ public class KadaiConstants {
 
 	/**  FILE_SIZE  ファイルサイズ  */
 	public static final int FILE_SIZE = 1024 * 1024;
+
+	/** BLANK_CHAR 空文字 */
+	public static final String BLANK_CHAR = "";
 }

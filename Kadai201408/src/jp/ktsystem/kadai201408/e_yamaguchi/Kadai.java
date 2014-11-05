@@ -1,4 +1,4 @@
-﻿package jp.ktsystem.kadai201408.e_yamaguchi;
+package jp.ktsystem.kadai201408.e_yamaguchi;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -93,7 +93,10 @@ public class Kadai {
 					new FileInputStream(anInputPath), KadaiConstants.CHARACTER_CODE), KadaiConstants.FILE_SIZE);
 
 			String line = bufferedReader.readLine();
-			if (line != null) {
+			if (line == null) {
+				// ファイルが空文字の場合
+				scoreInfoMap = setRecordZero(scoreInfoMap);
+			} else {
 				// BOM除去
 				line = KadaiUtil.skipBom(line);
 
@@ -111,6 +114,22 @@ public class Kadai {
 				}
 			}
 		}
+
+		return scoreInfoMap;
+	}
+
+	/**
+	 * ファイルが空文字の場合ゼロをセット
+	 * <br>
+	 * @param scoreInfoMap ファイル出力内容
+	 * @return Map<Integer, ScoreInfoBean>
+	 */
+	private static Map<Integer, ScoreInfoBean> setRecordZero(Map<Integer, ScoreInfoBean> scoreInfoMap) {
+
+		ScoreInfoBean bean = new ScoreInfoBean();
+		bean.setTextData(KadaiConstants.BLANK_CHAR);
+		bean.setScoreMultiply(0);
+		scoreInfoMap.put(1, bean);
 
 		return scoreInfoMap;
 	}
